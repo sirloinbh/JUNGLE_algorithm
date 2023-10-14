@@ -1,5 +1,5 @@
 def solve(a):
     ans = 0
-    for i in range(len(a)):
-        ans=ans+a[i]
+    for b in a:
+        ans +=b
     return ans

@@ -1,18 +1,15 @@
-def DFS(N, row, columns, diagonals1, diagonals2):
+def solve(row, left, right, vertical):
     global result
-    if row == N:
-        result += 1
-        return
-    for col in range(N):
-        if columns[col] and diagonals1[row - col] and diagonals2[row + col]:
-            columns[col] = diagonals1[row - col] = diagonals2[row + col] = False
-            DFS(N, row + 1, columns, diagonals1, diagonals2)
-            columns[col] = diagonals1[row - col] = diagonals2[row + col] = True
+    available = ((1 << N) - 1) & ~(left | right | vertical)
+    while available:
+        lsb = -available & available
+        available -= lsb
+        if row == N - 1:
+            result += 1
+        else:
+            solve(row + 1, (left | lsb) << 1, (right | lsb) >> 1, vertical | lsb)
 
 N = int(input())
 result = 0
-columns = [True] * N
-diagonals1 = [True] * (2 * N - 1)
-diagonals2 = [True] * (2 * N - 1)
-DFS(N, 0, columns, diagonals1, diagonals2)
+solve(0, 0, 0, 0)
 print(result)

@@ -1,39 +1,41 @@
 class Node:
-    def __init__(self, data, left_node, right_node):
-        self.data = data
-        self.left_node = left_node
-        self.right_node = right_node
+    def __init__(self, data, left, right):
+        self.data = data         
+        self.left = left         
+        self.right = right       
 
-def pre_order(node):  # 전위 순회
+def pre_trav(node):
     print(node.data, end='')
-    if node.left_node != '.':
-        pre_order(tree[node.left_node])
-    if node.right_node != '.':
-        pre_order(tree[node.right_node])
+    if node.left !='.':
+        pre_trav(tree[node.left])
+    if node.right !='.':
+        pre_trav(tree[node.right])
 
-def in_order(node):  # 중위 순회
-    if node.left_node != '.':
-        in_order(tree[node.left_node])
+def in_trav(node):
+    
+    if node.left !='.':
+        in_trav(tree[node.left])
     print(node.data, end='')
-    if node.right_node != '.':
-        in_order(tree[node.right_node])
-
-def post_order(node):  # 후위 순회
-    if node.left_node != '.':
-        post_order(tree[node.left_node])
-    if node.right_node != '.':
-        post_order(tree[node.right_node])
+    if node.right !='.':
+        in_trav(tree[node.right])
+        
+def pos_trav(node):
+    
+    if node.left !='.':
+        pos_trav(tree[node.left])
+    if node.right !='.':
+        pos_trav(tree[node.right])
     print(node.data, end='')
 
-n = int(input())
-tree = {}
+N=int(input())
+tree={}
+for _ in range(N):
+    data,left,right = input().split()
+    tree[data]=Node(data,left,right)
 
-for _ in range(n):
-    data, left_node, right_node = input().split()
-    tree[data] = Node(data, left_node, right_node)
-
-pre_order(tree['A'])
-print()
-in_order(tree['A'])
-print()
-post_order(tree['A'])
+pre_trav(tree['A'])
+print('')
+in_trav(tree['A'])
+print('')
+pos_trav(tree['A'])
+print('')

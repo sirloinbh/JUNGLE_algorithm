@@ -4,23 +4,28 @@ def DFS(graph,start,A):
     visited=[]
     stack =[start]
     cnt=0
-    if A[start]==0:
+    
+    if A[start-1]==0:
         return cnt 
     else:
-
         while stack:
             vertex=stack.pop()
-            if (vertex not in visited) and (A[vertex]==0):
-                visited.append(vertex)
-                stack.extend(sorted(graph[vertex], reverse =True))
-            else:
-                cnt+=1
-                return cnt
+            
+            if vertex not in visited:
+                if A[vertex-1]==0 or vertex==start:
+                    visited.append(vertex)
+                    stack.extend(sorted(graph[vertex], reverse =True))
+                else:
+                    visited.append(vertex)
+                    cnt+=1
+                    
+        return cnt
         
 
 def main():
     N= int(sys.stdin.readline())
-    A = [int(digit) for digit in sys.stdin.readline().strip()]
+    A= sys.stdin.readline().strip()
+    A = [int(digit) for digit in str(A)]
     
     graph = {i:[] for i in range(1,N+1)}
     cnt=0
@@ -30,7 +35,7 @@ def main():
         graph[u].append(v)
         graph[v].append(u)
     
-    for i in range(N):
+    for i in range(1,N+1):
         cnt+=DFS(graph,i,A)
-    print(cnt*2)
+    print(cnt)
 main()

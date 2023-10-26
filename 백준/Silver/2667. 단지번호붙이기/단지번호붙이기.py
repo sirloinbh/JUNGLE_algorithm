@@ -1,42 +1,50 @@
+import sys
 from collections import deque
 
-N=int(input())
-graph=[[] for i in range(N)]
-for i in range(N):
-    a=input()
-    for j in range(N):
-        graph[i].append(a[j])
-        graph[i][j]=int(graph[i][j])
-        
-dx=[1,-1,0,0]
-dy=[0,0,1,-1]
-visited = [[False]*N for _ in range(N)]
-count=[0]
+input = lambda: sys.stdin.readline().rstrip()
 
-def bfs(a,b,graph,visited,count):
+N = int(input())
 
-    q=deque([(a,b)])
-    visited[a][b]=True
-    cnt1=1
-    while q:
-        x,y = q.popleft()
+graph = [list(map(int, input())) for _ in range(N)]
+visited = [[False] * N for _ in range(N)]
+dx = [1, -1, 0, 0]
+dy = [0, 0, 1, -1]
+
+
+def bfs(x, y):
+    graph[x][y] = 0
+    visited[x][y] = True
+    queue = deque()
+    queue.append((x, y))
+
+    temp = 1
+
+    while queue:
+        x, y = queue.popleft()
+
         for i in range(4):
-            nx,ny=x+dx[i],y+dy[i]
-            if 0<=nx<N and 0<=ny<N and graph[nx][ny]!=0:
-                if visited[nx][ny]==False:
-                    visited[nx][ny]=True
-                    cnt1+=1
-                    q.append((nx,ny))
-    count.append(cnt1)
-    return visited,count
+            nx = x + dx[i]
+            ny = y + dy[i]
 
-cnt2=0                   
+            if 0 <= nx < N and 0 <= ny < N and graph[nx][ny] == 1 and not visited[nx][ny]:
+                graph[nx][ny] = 0
+                visited[nx][ny] = 1
+                queue.append((nx, ny))
+                temp += 1
+
+    return temp
+
+
+result = 0
+answer = []
+
 for i in range(N):
     for j in range(N):
-        if graph[i][j]==1 and visited[i][j]==False:
-            bfs(i,j,graph,visited,count)
-            cnt2+=1
-count[0]=cnt2
-count[1:]=sorted(count[1:])
-for i in range(len(count)):
-   print(count[i]) 
+        if graph[i][j] == 1 and not visited[i][j]:
+            result += 1
+            answer.append(bfs(i, j))
+
+print(result)
+answer.sort()
+for a in answer:
+    print(a)
